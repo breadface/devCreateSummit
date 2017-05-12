@@ -1,28 +1,20 @@
 import React, { Component } from 'react'
 import { View, TouchableHighlight, Text, StyleSheet } from 'react-native'
+import { withState } from './hoc'
 
-class Counter extends Component {
-  state = {
-    counter: 0
-  }
+const enhance = withState('counter', 'setCounter', 0)
 
-  render() {
-    let { counter } =  this.state
-    return (
-      <View style={styles.container}>
-        <View><Text>{this.state.counter}</Text></View>
-        <TouchableHighlight
-          style={styles.button}
-          onPress={() => {
-            this.setState({counter: counter+1})
-          }}
-          >
-          <Text>+</Text>
-        </TouchableHighlight>
-      </View>
-    )
-  }
-}
+const Counter = (({counter, setCounter}) =>
+  <View style={styles.container}>
+    <View><Text>{counter}</Text></View>
+    <TouchableHighlight
+      style={styles.button}
+      onPress={() => setCounter(n => n+1)}
+      >
+      <Text>+</Text>
+    </TouchableHighlight>
+  </View>
+)
 
 let styles =  StyleSheet.create({
   container: {
@@ -43,4 +35,4 @@ let styles =  StyleSheet.create({
 })
 
 
-export default Counter
+export default enhance(Counter)
